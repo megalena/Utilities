@@ -9,18 +9,14 @@ namespace RenumberFiles
 {
     class Program
     {
-        private static string[] mediaExtensions = 
-        {
-            ".png", ".jpg", ".jpeg", ".bmp", ".gif", 
-            ".wav", ".mid", ".midi", ".wma", ".mp3", ".ogg", ".rma", 
-            ".avi", ".mp4", ".divx", ".wmv", ".mkv"
-        };
-
-        private static bool IsMediaFileExtension(string path)
-        {
-            return mediaExtensions.Contains(path.ToLowerInvariant());
-        }
-
+        /// <summary>
+        /// This utility adds index numbers at the beginning of each media file name with selected extension in the current folder or its subfolders.
+        /// The result files are ordered by folder name and track number.
+        /// </summary>
+        /// <param name="args">
+        /// arg1 - The target folder full path
+        /// arg2 - The media file extension to select the target files
+        /// </param>
         static void Main(string[] args)
         {
             var targetFilesExtension = string.Empty;
@@ -58,6 +54,18 @@ namespace RenumberFiles
             RenumberFiles(parentFolderPath, "*" + targetFilesExtension);
         }
 
+        private static string[] mediaExtensions = 
+        {
+            ".png", ".jpg", ".jpeg", ".bmp", ".gif", 
+            ".wav", ".mid", ".midi", ".wma", ".mp3", ".ogg", ".rma", 
+            ".avi", ".mp4", ".divx", ".wmv", ".mkv"
+        };
+
+        private static bool IsMediaFileExtension(string path)
+        {
+            return mediaExtensions.Contains(path.ToLowerInvariant());
+        }
+
         private static void RenumberFiles(string parentDirectoryPath, string searchPattern)
         {
             var allDirectories = GetSubDirectories(parentDirectoryPath);
@@ -69,8 +77,8 @@ namespace RenumberFiles
             int counter = 0;
             foreach (var directory in allDirectories)
             {
-                var files = Directory.GetFiles(directory, searchPattern);
-                var sortedFiles = files.OrderBy(f => GetTrackNumber(f)).ToList();
+                var mediaFiles = Directory.GetFiles(directory, searchPattern);
+                var sortedFiles = mediaFiles.OrderBy(f => GetTrackNumber(f)).ToList();
                 foreach (var file in sortedFiles)
                 {
                     var fileName = Path.GetFileName(file);

@@ -9,6 +9,10 @@ namespace CleanFileTitles
 {
     class Program
     {
+        /// <summary>
+        /// This utility deletes all files' Tiltle tags in the selected folder and all its subfolders
+        /// </summary>
+        /// <param name="args"></param>
         static void Main(string[] args)
         {
             if (args.Length == 0)
